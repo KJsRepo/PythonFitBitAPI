@@ -12,22 +12,26 @@ token_url = 'https://api.fitbit.com/oauth2/token'
 
 client_id = ''
 client_secret = ''
-redirect_address = 'http://url.to/accept.php'
+redirect_address = ''
 
 auth_filename = 'auth_key'
+refresh_filename = 'refresh_key'
+
 try:
     auth_file = open(auth_filename, 'r');
     auth_code = auth_file.read()
     auth_file.close()
 
 except:
-    auth_url = 'https://www.fitbit.com/oauth2/authorize?response_type=code&client_id={}&redirect_uri={}&fitbit_auth&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight'.format(client_id, redirect_address)
+    auth_url = authorize_url + ('?response_type=code&client_id={}&redirect_uri={}&fitbit_auth&'
+    'scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20'
+    'settings%20sleep%20social%20weight').format(client_id, redirect_address)
     print('Could not open auth_key file, ensure that authorization has been gotten from: \n' + auth_url)
     exit()
 
 
 try:
-    fh = open('refresh_key', 'r')
+    fh = open(refresh_filename, 'r')
     refresh_token = fh.read()
     fh.close()
 except FileNotFoundError:
